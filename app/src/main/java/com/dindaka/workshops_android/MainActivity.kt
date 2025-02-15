@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.dindaka.workshops_android.ui.theme.Workshops_androidTheme
+import com.dindaka.workshops_android.presentation.theme.Workshops_androidTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
