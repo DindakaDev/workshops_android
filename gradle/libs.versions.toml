@@ -17,6 +17,7 @@ viewmodelCompose = "2.8.7"
 hiltComposeNavigation = "1.2.0"
 moshi = "1.15.2"
 moshiConverter = "2.9.0"
+iconsExtendedVersion = "1.7.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +55,10 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 
 # ViewModel
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewmodelCompose" }
+
+# Extended Icons
+material-extended-icons = {group = "androidx.compose.material", name = "material-icons-extended", version.ref = "iconsExtendedVersion"}
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
