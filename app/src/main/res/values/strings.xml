@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">workshops_android</string>
-    <string name="email">Email</string>
+    <string name="app_name">Talleres Unidos</string>
+    <string name="username">Usuario</string>
     <string name="password">password</string>
     <string name="btn_login">Iniciar sesión</string>
     <string name="menu">Menu</string>
@@ -29,6 +29,8 @@
     <string name="accept">Aceptar</string>
     <string name="select">Seleccionar</string>
     <string name="select_date_range">Selecciona rango de fechas\n</string>
+    <string name="lbl_logout">Cerrar sesión</string>
+    <string name="lbl_edit">Modificar taller</string>
 
 
 </resources>

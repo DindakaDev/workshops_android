@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.dindaka.workshops_android.R
-import com.dindaka.workshops_android.presentation.components.EmailInput
+import com.dindaka.workshops_android.presentation.components.NormalInput
 import com.dindaka.workshops_android.presentation.components.PasswordInput
 import com.dindaka.workshops_android.presentation.components.PrimaryButton
 import com.dindaka.workshops_android.presentation.components.TitleTextComponent
@@ -60,7 +60,7 @@ fun FormLogin(navController: NavHostController) {
     ) {
         TitleTextComponent("Talleres unidos")
         Spacer(Modifier.size(16.dp))
-        EmailInput("", placeHolder = R.string.email) { }
+        NormalInput("", placeHolder = R.string.username) { }
         Spacer(Modifier.size(8.dp))
         PasswordInput("", placeHolder = R.string.password) { }
         Spacer(Modifier.size(20.dp))

@@ -48,11 +48,11 @@ import kotlinx.coroutines.launch
 fun HomeScreen(navController: NavHostController) {
     val courotineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val showFilterDialog = true
+    val showFilterDialog = false
     ModalNavigationDrawer( //Drawer
         drawerState = drawerState,
         drawerContent = {
-            DrawerGeneral {
+            DrawerGeneral(navController){
                 courotineScope.launch {
                     drawerState.close()
                 }
