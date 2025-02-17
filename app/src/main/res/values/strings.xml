@@ -1,3 +1,36 @@
 <resources>
-    <string name="app_name">workshops_android</string>
+    <string name="app_name">Talleres Unidos</string>
+    <string name="username">Usuario</string>
+    <string name="password">password</string>
+    <string name="btn_login">Iniciar sesión</string>
+    <string name="menu">Menu</string>
+    <string name="title_install">Instalación</string>
+    <string name="title_solicitud">Solicitud</string>
+    <string name="title_supply_part">Surtir pieza</string>
+    <string name="title_solicitud_pieza">Solicitud pieza</string>
+    <string name="lbl_solicitud">Solicitud</string>
+    <string name="lbl_pieza">Seleccionar pieza</string>
+    <string name="lbl_pieza_requerida">Pieza solicitada</string>
+    <string name="lbl_taller">Taller</string>
+    <string name="lbl_localizacion">Localización</string>
+    <string name="lbl_fecha_instalacion">Fecha de instalación</string>
+    <string name="lbl_status">Estatus</string>
+    <string name="lbl_fotografia">Agregar evidencia</string>
+    <string name="btn_check_existence">Verificar existencia</string>
+    
+    <string name="vin_vehicle">VIN vehicle</string>
+    <string name="name_mecanico">Nombre del mecanico</string>
+    <string name="filtrar">Filtrar</string>
+    <string name="solicitud">Solicitud</string>
+    <string name="dates">Rango de fechas</string>
+    <string name="order">Ordenar:</string>
+    <string name="apply">Aplicar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
+    <string name="select">Seleccionar</string>
+    <string name="select_date_range">Selecciona rango de fechas\n</string>
+    <string name="lbl_logout">Cerrar sesión</string>
+    <string name="lbl_edit">Modificar taller</string>
+
+
 </resources>
