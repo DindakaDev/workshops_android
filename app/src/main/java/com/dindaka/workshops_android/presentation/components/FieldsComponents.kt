@@ -46,7 +46,7 @@ fun PasswordInput(password: String, @StringRes placeHolder: Int, onTextChanged: 
 }
 
 @Composable
-fun NormalInput(text: String, @StringRes placeHolder: Int, onTextChanged: (String) -> Unit) {
+fun NormalInput(text: String, @StringRes placeHolder: Int,  leadingIcon: @Composable() (() -> Unit)? = null, onTextChanged: (String) -> Unit) {
     OutlinedTextField(
         value = text,
         onValueChange = { onTextChanged(it) },
@@ -54,6 +54,7 @@ fun NormalInput(text: String, @StringRes placeHolder: Int, onTextChanged: (Strin
         placeholder = { Text(stringResource(placeHolder)) },
         maxLines = 1,
         singleLine = true,
+        leadingIcon = leadingIcon,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text
         ),

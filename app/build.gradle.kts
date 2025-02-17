@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.moshi)
     implementation(libs.moshi.converter)
     implementation(libs.moshi.kotlin)
+    implementation(libs.androidx.runtime.livedata)
     ksp(libs.moshi.codegen)
 
     // Room
