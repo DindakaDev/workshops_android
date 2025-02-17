@@ -9,10 +9,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun TitleTextComponent(text: String, modifier: Modifier = Modifier.fillMaxWidth()) {
+fun TitleTextComponent(text: String, modifier: Modifier = Modifier.fillMaxWidth(), textAlign: TextAlign = TextAlign.Center) {
     Text(
         text,
-        textAlign = TextAlign.Center,
+        textAlign = textAlign,
         modifier = modifier,
         style = MaterialTheme.typography.titleLarge,
         color = MaterialTheme.colorScheme.onSurfaceVariant

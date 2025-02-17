@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.dindaka.workshops_android"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.dindaka.workshops_android"
@@ -74,6 +74,9 @@ dependencies {
 
     // Extended Icons
     implementation(libs.material.extended.icons)
+
+    // Coil
+    implementation(libs.coil)
 
     // Testing
     testImplementation(libs.junit)
