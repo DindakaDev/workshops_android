@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,17 +27,22 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.dindaka.workshops_android.R
+import com.dindaka.workshops_android.data.remote.dto.service.ServiceDTO
 import com.dindaka.workshops_android.presentation.components.BodyTextComponent
 import com.dindaka.workshops_android.presentation.components.FilterDialog
 import com.dindaka.workshops_android.presentation.components.GeneralScaffold
@@ -45,14 +51,23 @@ import com.dindaka.workshops_android.presentation.screens.home.requested.History
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hiltViewModel()) {
+    val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
+    val items: List<ServiceDTO> by viewModel.historyService.observeAsState(emptyList())
+    val name: String by viewModel.name.observeAsState("")
     val courotineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val showFilterDialog = false
+    val showFilterDialog: Boolean by viewModel.showFilterDialog.observeAsState(false)
+
     ModalNavigationDrawer( //Drawer
         drawerState = drawerState,
         drawerContent = {
-            DrawerGeneral(navController){
+            DrawerGeneral(logout = {
+                viewModel.clearLocalData()
+                navController.navigate(Routes.Login.route) {
+                    popUpTo(Routes.Home.route) { inclusive = true }
+                }
+            }, name = name) {
                 courotineScope.launch {
                     drawerState.close()
                 }
@@ -73,36 +88,46 @@ fun HomeScreen(navController: NavHostController) {
             actions = {
                 Row {
                     IconButton(onClick = {
-
+                        viewModel.showOrHideFilterDialog()
                     }) {
                         Icon(Icons.Filled.FilterList, contentDescription = "Filter")
                     }
                 }
             },
             container = {
-                if(showFilterDialog) {
-                    FilterDialog(onDismiss = {}) { name, type, dates, order ->
-
+                if (showFilterDialog) {
+                    FilterDialog(onDismiss = { viewModel.showOrHideFilterDialog() }) { name, type, dates, order ->
+                        viewModel.showOrHideFilterDialog()
                     }
                 }
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
+                Box {
                     Column(
                         modifier = Modifier
-                            .weight(1f)
-                            .background(MaterialTheme.colorScheme.primaryContainer)
-                            .padding(horizontal = 8.dp, vertical = 8.dp)
+                            .fillMaxSize()
                     ) {
-                        ActionsComponent(navController)
-                        Spacer(Modifier.size(8.dp))
-                        HistoryServiceComponent(
-                            title = "Historial de Servicios",
-                            navController = navController
-                        )
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .background(MaterialTheme.colorScheme.primaryContainer)
+                                .padding(horizontal = 8.dp, vertical = 8.dp)
+                        ) {
+                            ActionsComponent(viewModel, navController)
+                            Spacer(Modifier.size(8.dp))
+                            HistoryServiceComponent(
+                                title = stringResource(R.string.lbl_history_services),
+                                items = items,
+                                navController = navController
+                            )
+                        }
+                        SyncParts(viewModel)
                     }
-                    SyncParts()
+                    if (isLoading) {
+                        Box(modifier = Modifier
+                            .fillMaxSize()
+                            .clickable { }) {
+                            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                        }
+                    }
                 }
             }
         )
@@ -110,7 +135,8 @@ fun HomeScreen(navController: NavHostController) {
 }
 
 @Composable
-fun ActionsComponent(navController: NavHostController) {
+fun ActionsComponent(viewModel: HomeViewModel, navController: NavHostController) {
+    val pendingRequest: Int by viewModel.countPendingService.observeAsState(0)
     Row(
         Modifier
             .height(100.dp)
@@ -131,13 +157,13 @@ fun ActionsComponent(navController: NavHostController) {
             ) {
                 Icon(
                     Icons.Filled.Settings,
-                    contentDescription = "Nuevo servicio",
+                    contentDescription = stringResource(R.string.lbl_new_service),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                 )
                 Text(
-                    "Nuevo Servicio",
+                    stringResource(R.string.lbl_new_service),
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     color = MaterialTheme.colorScheme.primary,
                 )
@@ -155,12 +181,12 @@ fun ActionsComponent(navController: NavHostController) {
         ) {
             Column(Modifier.align(Alignment.Center)) {
                 Text(
-                    "Solicitud piezas",
+                    stringResource(R.string.lbl_request_parts),
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     color = MaterialTheme.colorScheme.primary,
                 )
                 Text(
-                    "8",
+                    pendingRequest.toString(),
                     fontSize = 29.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     color = MaterialTheme.colorScheme.secondary,
@@ -172,12 +198,13 @@ fun ActionsComponent(navController: NavHostController) {
 }
 
 @Composable
-fun SyncParts() {
+fun SyncParts(viewModel: HomeViewModel) {
     Box(
         Modifier
             .fillMaxWidth()
             .height(80.dp)
             .background(MaterialTheme.colorScheme.background)
+            .clickable { viewModel.onUserSyncStorage() }
     ) {
         Column(
             Modifier

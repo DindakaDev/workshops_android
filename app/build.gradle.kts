@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -57,6 +59,9 @@ dependencies {
     implementation(libs.moshi)
     implementation(libs.moshi.converter)
     implementation(libs.moshi.kotlin)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.play.services.location)
     ksp(libs.moshi.codegen)
 
     // Room
@@ -77,6 +82,9 @@ dependencies {
 
     // Coil
     implementation(libs.coil)
+
+    // Firebase
+    implementation(libs.firebase.bom)
 
     // Testing
     testImplementation(libs.junit)
