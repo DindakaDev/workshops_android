@@ -23,9 +23,9 @@ data class ServiceDTO(
     val tallerId: String? = null,
     val vinVehiculo: String? = null,
     var historial: List<HistorialDTO>? = null,
+    val geolocalizacionDTO: GeolocalizacionDTO? = null,
 
     val fotografiaEvidencia: String? = null,
-    val geolocalizacionTallerSolicitante: GeolocalizacionDTO? = null,
 ): Parcelable
 
 @JsonClass(generateAdapter = true)

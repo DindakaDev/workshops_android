@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.moshi.kotlin)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.play.services.location)
     ksp(libs.moshi.codegen)
 
     // Room

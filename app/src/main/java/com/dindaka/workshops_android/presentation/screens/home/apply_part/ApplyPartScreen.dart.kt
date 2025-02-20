@@ -29,8 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.dindaka.workshops_android.R
+import com.dindaka.workshops_android.data.remote.dto.service.GeolocalizacionDTO
 import com.dindaka.workshops_android.presentation.components.AutoCompleteTextField
 import com.dindaka.workshops_android.presentation.components.GeneralScaffold
+import com.dindaka.workshops_android.presentation.components.GetCurrentLocation
 import com.dindaka.workshops_android.presentation.components.ImageViewer
 import com.dindaka.workshops_android.presentation.components.LinkButton
 import com.dindaka.workshops_android.presentation.components.NormalInput
@@ -70,6 +72,9 @@ fun ApplyPartScreen(
             }
         },
         container = {
+            GetCurrentLocation{
+                viewModel.updateRequest { copy( geolocalizacionDTO = GeolocalizacionDTO(latitud = it?.latitude, longitud = it?.longitude))}
+            }
             Box {
                 if(isSuccess){
                     SuccessDialog {

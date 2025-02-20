@@ -42,11 +42,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.dindaka.workshops_android.R
+import com.dindaka.workshops_android.data.remote.dto.service.GeolocalizacionDTO
 import com.dindaka.workshops_android.data.remote.dto.service.HistorialDTO
 import com.dindaka.workshops_android.data.remote.dto.service.ServiceDTO
 import com.dindaka.workshops_android.data.remote.dto.service.TypeService
 import com.dindaka.workshops_android.presentation.components.AutoCompleteTextField
 import com.dindaka.workshops_android.presentation.components.GeneralScaffold
+import com.dindaka.workshops_android.presentation.components.GetCurrentLocation
 import com.dindaka.workshops_android.presentation.components.ImageViewer
 import com.dindaka.workshops_android.presentation.components.PrimaryButton
 import com.dindaka.workshops_android.presentation.components.SuccessDialog
@@ -93,6 +95,16 @@ fun SupplyPartScreen(
                 SuccessDialog {
                     viewModel.resetDialogs()
                     navController.popBackStack()
+                }
+            }
+            GetCurrentLocation {
+                viewModel.updateRequest {
+                    copy(
+                        geolocalizacionTaller = GeolocalizacionDTO(
+                            latitud = it?.latitude,
+                            longitud = it?.longitude
+                        )
+                    )
                 }
             }
             Box {
@@ -161,6 +173,13 @@ fun ItemHistoryComponent(history: HistorialDTO) {
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
+            Row {
+                Text(
+                    text = "Localizacion: ${history.geolocalizacionTaller?.latitud ?: 0},${history.geolocalizacionTaller?.longitud ?: 0}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Fecha: ${history.fecha ?: "No disponible"}",
                 style = MaterialTheme.typography.bodySmall,
@@ -210,6 +229,11 @@ fun GeneralInformationRequest(service: ServiceDTO) {
             InfoRow(
                 label = "Estatus:",
                 value = service.estatus ?: "",
+                color = MaterialTheme.colorScheme.primary
+            )
+            InfoRow(
+                label = "Localizacion:",
+                value = "${service.geolocalizacionDTO?.latitud ?: 0},${service.geolocalizacionDTO?.longitud ?: 0}",
                 color = MaterialTheme.colorScheme.primary
             )
         }
