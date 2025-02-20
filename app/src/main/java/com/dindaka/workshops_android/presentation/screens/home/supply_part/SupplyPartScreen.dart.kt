@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -36,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,10 +45,9 @@ import com.dindaka.workshops_android.data.remote.dto.service.HistorialDTO
 import com.dindaka.workshops_android.data.remote.dto.service.ServiceDTO
 import com.dindaka.workshops_android.data.remote.dto.service.TypeService
 import com.dindaka.workshops_android.presentation.components.AutoCompleteTextField
+import com.dindaka.workshops_android.presentation.components.CameraCapture
 import com.dindaka.workshops_android.presentation.components.GeneralScaffold
 import com.dindaka.workshops_android.presentation.components.GetCurrentLocation
-import com.dindaka.workshops_android.presentation.components.ImageViewer
-import com.dindaka.workshops_android.presentation.components.PrimaryButton
 import com.dindaka.workshops_android.presentation.components.SuccessDialog
 import com.dindaka.workshops_android.presentation.components.TitleTextComponent
 import com.dindaka.workshops_android.utils.DateUtil
@@ -263,9 +260,9 @@ fun FormApplyPartComponent(modifier: Modifier, viewModel: SupplyPartViewModel) {
         Spacer(Modifier.size(8.dp))
         MechanicComponent(viewModel)
         Spacer(Modifier.size(8.dp))
-        PrimaryButton(text = stringResource(R.string.lbl_fotografia)) { }
-        Spacer(Modifier.size(20.dp))
-        ImageAddedComponent()
+        CameraCapture(modifier = Modifier, onImageCaptured = {
+            viewModel.updateRequest { copy(evidencia = it.path) }
+        })
     }
 }
 
@@ -282,20 +279,6 @@ fun MechanicComponent(viewModel: SupplyPartViewModel) {
             copy(
                 mecanico = text,
             )
-        }
-    }
-}
-
-@Composable
-fun ImageAddedComponent() {
-    val listImages = listOf(
-        "https://img.freepik.com/foto-gratis/tocar-mano-icono-busqueda-optimizacion-motor-busqueda-o-concepto-seo-encontrar-informacion-conexion-internet_616485-37.jpg?t=st=1739689176~exp=1739692776~hmac=f16a1be2f17852751988436d7924f18f220cdc54839c6e468b890bea44e97155&w=2000",
-        "https://img.freepik.com/foto-gratis/tocar-mano-icono-busqueda-optimizacion-motor-busqueda-o-concepto-seo-encontrar-informacion-conexion-internet_616485-37.jpg?t=st=1739689176~exp=1739692776~hmac=f16a1be2f17852751988436d7924f18f220cdc54839c6e468b890bea44e97155&w=2000"
-    )
-    LazyRow(Modifier.fillMaxWidth()) {
-        items(listImages) {
-            ImageViewer(it) { }
-            Spacer(Modifier.size(5.dp))
         }
     }
 }

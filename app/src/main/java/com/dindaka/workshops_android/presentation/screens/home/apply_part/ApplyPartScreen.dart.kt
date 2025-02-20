@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -31,12 +28,11 @@ import androidx.navigation.NavHostController
 import com.dindaka.workshops_android.R
 import com.dindaka.workshops_android.data.remote.dto.service.GeolocalizacionDTO
 import com.dindaka.workshops_android.presentation.components.AutoCompleteTextField
+import com.dindaka.workshops_android.presentation.components.CameraCapture
 import com.dindaka.workshops_android.presentation.components.GeneralScaffold
 import com.dindaka.workshops_android.presentation.components.GetCurrentLocation
-import com.dindaka.workshops_android.presentation.components.ImageViewer
 import com.dindaka.workshops_android.presentation.components.LinkButton
 import com.dindaka.workshops_android.presentation.components.NormalInput
-import com.dindaka.workshops_android.presentation.components.PrimaryButton
 import com.dindaka.workshops_android.presentation.components.SuccessDialog
 
 @Composable
@@ -106,6 +102,7 @@ fun FormApplyPartComponent(viewModel: ApplyPartViewModel) {
     val firstValidationEachChanged by viewModel.firstValidationEachChanged.observeAsState(false)
     val partExist by viewModel.partExist.observeAsState()
     val items by viewModel.localStorage.observeAsState()
+    val localContext = LocalContext.current
 
     // Cada cambio en las piezas habilita el boton para validar existencia con true
     Column(Modifier.padding(horizontal = 8.dp, vertical = 16.dp)) {
@@ -136,9 +133,9 @@ fun FormApplyPartComponent(viewModel: ApplyPartViewModel) {
             Box {}
         } else if (partExist!!) {
             MechanicComponent(viewModel)
-            PrimaryButton(text = stringResource(R.string.lbl_fotografia)) { }
-            Spacer(Modifier.size(20.dp))
-            ImageAddedComponent()
+            CameraCapture(modifier = Modifier, onImageCaptured = {
+                viewModel.updateRequest { copy(fotografiaEvidencia = it.path) }
+            })
         } else {
             FormToSuppyPart(viewModel)
         }
@@ -170,20 +167,6 @@ fun MechanicComponent(viewModel: ApplyPartViewModel) {
             copy(
                 mecanico = text,
             )
-        }
-    }
-}
-
-@Composable
-fun ImageAddedComponent() {
-    val listImages = listOf(
-        "https://img.freepik.com/foto-gratis/tocar-mano-icono-busqueda-optimizacion-motor-busqueda-o-concepto-seo-encontrar-informacion-conexion-internet_616485-37.jpg?t=st=1739689176~exp=1739692776~hmac=f16a1be2f17852751988436d7924f18f220cdc54839c6e468b890bea44e97155&w=2000",
-        "https://img.freepik.com/foto-gratis/tocar-mano-icono-busqueda-optimizacion-motor-busqueda-o-concepto-seo-encontrar-informacion-conexion-internet_616485-37.jpg?t=st=1739689176~exp=1739692776~hmac=f16a1be2f17852751988436d7924f18f220cdc54839c6e468b890bea44e97155&w=2000"
-    )
-    LazyRow(Modifier.fillMaxWidth()) {
-        items(listImages) {
-            ImageViewer(it) { }
-            Spacer(Modifier.size(5.dp))
         }
     }
 }
