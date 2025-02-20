@@ -1,5 +1,6 @@
 package com.dindaka.workshops_android.presentation.screens.login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +23,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -38,6 +40,12 @@ import com.dindaka.workshops_android.presentation.navigation.Routes
 fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hiltViewModel()) {
     val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
     val navigateToHome by viewModel.navigateToHome.observeAsState(false)
+    val error by viewModel.error.observeAsState(null)
+    val context = LocalContext.current
+    if(error != null) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+        viewModel.resetShowError()
+    }
     if (navigateToHome) {
         navController.navigate(Routes.Home.route) {
             popUpTo(Routes.Login.route) { inclusive = true }

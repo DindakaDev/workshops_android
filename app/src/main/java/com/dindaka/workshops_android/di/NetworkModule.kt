@@ -1,5 +1,6 @@
 package com.dindaka.workshops_android.di
 
+import com.dindaka.workshops_android.data.remote.ApiService
 import com.dindaka.workshops_android.network.HeaderInterceptor
 import com.dindaka.workshops_android.network.NullToEmptyStringAdapter
 import com.squareup.moshi.Moshi
@@ -46,10 +47,16 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("www.google.com")
+            .baseUrl("https://workshops-9f172-default-rtdb.firebaseio.com/")
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi).withNullSerialization())
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
     }
 }
 

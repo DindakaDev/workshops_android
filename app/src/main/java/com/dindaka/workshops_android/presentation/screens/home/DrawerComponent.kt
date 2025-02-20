@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
@@ -23,24 +22,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.dindaka.workshops_android.R
 import com.dindaka.workshops_android.presentation.components.TitleTextComponent
-import com.dindaka.workshops_android.presentation.navigation.Routes
 
 @Composable
-fun DrawerGeneral(navController: NavController, actionDrawer: () -> Unit) {
+fun DrawerGeneral(name: String, logout: () -> Unit,  actionDrawer: () -> Unit) {
     ModalDrawerSheet {
         Column(modifier = Modifier.padding(8.dp)) {
-            DrawerHead()
-            DrawerItem(stringResource(R.string.lbl_edit), icon = Icons.Filled.Edit, onClick = {})
+            DrawerHead(name)
+            //DrawerItem(stringResource(R.string.lbl_edit), icon = Icons.Filled.Edit, onClick = {})
             DrawerItem(
                 stringResource(R.string.lbl_logout),
                 icon = Icons.AutoMirrored.Filled.Logout,
                 onClick = {
-                    navController.navigate(Routes.Login.route) {
-                        popUpTo(Routes.Home.route) { inclusive = true }
-                    }
+                    logout()
                 })
         }
     }
@@ -65,7 +60,7 @@ fun DrawerItem(text: String, icon: ImageVector, onClick: () -> Unit) {
 }
 
 @Composable
-fun DrawerHead() {
+fun DrawerHead(name: String) {
     Column {
         Image(
             painter = painterResource(R.drawable.logo),
@@ -81,6 +76,6 @@ fun DrawerHead() {
             fontSize = 12.sp
         )
         Spacer(Modifier.size(16.dp))
-        TitleTextComponent("Taller 1")
+        TitleTextComponent(name)
     }
 }

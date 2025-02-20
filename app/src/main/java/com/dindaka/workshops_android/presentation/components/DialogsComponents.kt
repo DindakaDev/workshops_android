@@ -30,7 +30,7 @@ import com.dindaka.workshops_android.R
 @Composable
 fun FilterDialog(
     onDismiss: () -> Unit,
-    onApply: (String, String, Pair<Long? ,Long?>?, String) -> Unit
+    onApply: (String, String, Pair<Long?, Long?>?, String) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -46,11 +46,11 @@ fun FilterDialog(
         title = { TitleTextComponent(stringResource(R.string.filtrar)) },
         text = {
             Column {
-                NormalInput(name, placeHolder = R.string.solicitud){
+                NormalInput(name, placeHolder = R.string.solicitud) {
                     name = it
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                StatusDropdown(selectedType){
+                StatusDropdown(selectedType) {
                     selectedType = it
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -96,6 +96,18 @@ fun FilterDialog(
             Button(onClick = { onDismiss() }) {
                 Text(stringResource(R.string.cancel))
             }
+        }
+    )
+}
+
+@Composable
+fun SuccessDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = { onDismiss() },
+        title = { TitleTextComponent("Exito") },
+        text = { Text("Proceso realizado con exito") },
+        confirmButton = {
+            onDismiss()
         }
     )
 }
