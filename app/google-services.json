@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "21682975013",
+    "firebase_url": "https://workshops-9f172-default-rtdb.firebaseio.com",
+    "project_id": "workshops-9f172",
+    "storage_bucket": "workshops-9f172.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21682975013:android:5f80f226c542b88834eacc",
+        "android_client_info": {
+          "package_name": "com.dindaka.workshops_android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAip0u1hycoB4NxsuwR6AEzq22iO-kP1lo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
